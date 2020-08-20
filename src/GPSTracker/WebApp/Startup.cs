@@ -27,6 +27,8 @@ namespace WebApp
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,12 @@ namespace WebApp
                 endpoints.MapControllers();
             });
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "API"); });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
@@ -63,6 +71,8 @@ namespace WebApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+
         }
     }
 }
