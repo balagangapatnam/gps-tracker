@@ -1,8 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using EnsureThat;
 using MediatR;
 using Repository.Code;
 using Repository.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LocationService.GetUserLocation
 {
@@ -17,6 +18,8 @@ namespace LocationService.GetUserLocation
 
         public async Task<User> Handle(GetUserLocationCommand request, CancellationToken cancellationToken)
         {
+            EnsureArg.IsNotNull(request);
+
             return await _locationRepository.GetCurrentLocationAsync(request.UserId);
         }
     }
