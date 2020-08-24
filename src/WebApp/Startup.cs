@@ -1,4 +1,5 @@
-using LocationService.Code;
+using LocationService.GetUserLocation;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -29,9 +30,10 @@ namespace WebApp
 
             services.AddSwaggerGen();
 
+            services.AddMediatR(typeof(GetUserLocationCommand));
+
             services.AddTransient<IDatabaseConnectionFactory>(e => new SqlConnectionFactory(Configuration.GetConnectionString("LocationDb")));
 
-            services.AddSingleton<IGetCurrentLocationForUsers, CurrentLocationRetriever>();
             services.AddSingleton<ILocationRepository, LocationRepository>();
         }
 
