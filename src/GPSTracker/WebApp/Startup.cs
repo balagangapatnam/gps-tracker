@@ -1,9 +1,11 @@
+using LocationService.Code;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository.Code;
 
 namespace WebApp
 {
@@ -23,12 +25,14 @@ namespace WebApp
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
 
             services.AddSwaggerGen();
+
+            services.AddTransient<IDatabaseConnectionFactory>(e => new SqlConnectionFactory(Configuration.GetConnectionString("LocationDb")));
+
+            services.AddSingleton<IGetCurrentLocationForUsers, CurrentLocationRetriever>();
+            services.AddSingleton<ILocationRepository, LocationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
