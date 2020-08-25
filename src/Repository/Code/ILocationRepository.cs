@@ -13,5 +13,7 @@ namespace Repository.Code
         Task UpdateUserLocationAsync(int userId, Location location);
 
         Task<User> GetLocationHistory(int userId);
+
+        Task<IEnumerable<User>> GetUsersWithInArea(Area requestArea);
     }
 }

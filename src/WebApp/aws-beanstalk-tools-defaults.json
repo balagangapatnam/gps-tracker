@@ -8,7 +8,7 @@
     "environment"    : "GPSTracking-test",
     "enable-xray"    : false,
     "enhanced-health-type" : "basic",
-    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-011ab56709ee8406d,sg-023234ac2c2b4a3a7\";\"aws:ec2:vpc,Subnets\"=\"subnet-0b8e1b1baff694acb\"",
+    "additional-options"   : "",
     "solution-stack"       : "64bit Amazon Linux 2 v2.0.1 running .NET Core",
     "environment-type"     : "SingleInstance",
     "cname"                : "gpstracking-test",

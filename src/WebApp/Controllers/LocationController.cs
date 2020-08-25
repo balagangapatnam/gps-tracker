@@ -1,6 +1,7 @@
 ﻿using LocationService.GetAllUsersLocation;
 using LocationService.GetUserLocation;
 using LocationService.GetUserLocationHistory;
+using LocationService.GetUsersWithInAnArea;
 using LocationService.PutUserLocation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,27 +20,22 @@ namespace WebApp.Controllers
         public LocationController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet("/users/location/")]
-        public async Task<ActionResult<IEnumerable<string>>> GetLocationForAllUsers() =>
+        public async Task<ActionResult<IEnumerable<User>>> GetLocationForAllUsers() =>
             this.Ok(await this._mediator.Send(new GetAllUsersLocationCommand()));
 
         [HttpGet("/users/{userId}/location/")]
-        public async Task<ActionResult<IEnumerable<string>>> GetLocation(int userId) =>
+        public async Task<ActionResult<User>> GetLocation(int userId) =>
             this.Ok(await this._mediator.Send(new GetUserLocationCommand(userId)));
 
         [HttpGet("/users/{userId}/location/history")]
-        public async Task<ActionResult<IEnumerable<string>>> GetLocationHistory(int userId) =>
+        public async Task<ActionResult<User>> GetLocationHistory(int userId) =>
             this.Ok(await this._mediator.Send(new GetUserLocationHistoryCommand(userId)));
 
-        //[HttpGet("/users/location/area")]
-        //public async Task<ActionResult<IEnumerable<string>>> GetUsersWithInArea([FromBody] Area area)
-        //{
-        //    return Ok(await _currentLocationForUsers.GetUsersWithCurrentLocation());
-        //}
-
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        [HttpGet("/users/location/area")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromQuery] Area area)
+        {
+            return this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
+        }
 
         [HttpPut("location/{userId}/")]
         public async Task Put(int userId, [FromBody] Location location) =>

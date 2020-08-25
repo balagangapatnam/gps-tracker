@@ -125,5 +125,45 @@ INSERT INTO [dbo].[UserLocation]
 
             return default;
         }
+
+        public async Task<IEnumerable<User>> GetUsersWithInArea(Area requestArea)
+        {
+            const string sql = @"
+WITH ulh AS
+(
+    SELECT u.Id
+         , u.[Name]
+         , ul.Latitude
+         , ul.Longitude
+         , RANK() OVER(PARTITION BY u.ID
+                           ORDER BY ul.ID DESC) AS [rank]
+      FROM dbo.[User] u WITH(NOLOCK)
+INNER JOIN dbo.UserLocation ul WITH(NOLOCK)
+        ON u.Id = ul.UserID
+)
+SELECT Id, [Name], Latitude, Longitude
+  FROM ulh
+ WHERE [rank] = 1
+   AND Latitude between @minLatitude and @maxLatitude
+   AND Longitude between @minLongitude and @maxLongitude;
+";
+            using var conn = await _databaseConnectionFactory.CreateConnectionAsync();
+
+            return await conn.QueryAsync<User, Location, User>(sql,
+                (user, location) =>
+                {
+                    user.CurrentLocation = location;
+                    return user;
+                },
+                new
+                {
+                    minLatitude = requestArea.MinLocation.Latitude,
+                    maxLatitude = requestArea.MaxLocation.Latitude,
+                    minLongitude = requestArea.MinLocation.Longitude,
+                    maxLongitude = requestArea.MaxLocation.Longitude
+                },
+                splitOn: "Latitude"
+                );
+        }
     }
 }
