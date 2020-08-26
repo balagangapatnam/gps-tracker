@@ -17,6 +17,6 @@ namespace Repository.Code
 
         Task<IEnumerable<UserDto>> GetUsersWithInArea(GeoJsonPolygon<GeoJson2DGeographicCoordinates> area);
 
-        //Task<User> CreateUser(string name, Location location);
+        Task<UserDto> CreateUser(string name, GeoJsonPoint<GeoJson2DGeographicCoordinates> location);
     }
 }

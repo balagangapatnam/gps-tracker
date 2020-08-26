@@ -11,10 +11,8 @@ namespace LocationService.Code.GetUserLocation
     {
         private readonly ILocationRepository _locationRepository;
 
-        public GetUserLocationCommandHandler(ILocationRepository locationRepository)
-        {
+        public GetUserLocationCommandHandler(ILocationRepository locationRepository) =>
             _locationRepository = locationRepository;
-        }
 
         public async Task<User> Handle(GetUserLocationCommand request, CancellationToken cancellationToken)
         {

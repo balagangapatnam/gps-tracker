@@ -42,28 +42,30 @@ namespace Repository.Code
             await (await this._currentLocations.FindAsync(
                 Builders<UserDto>.Filter.GeoWithin(u => u.LastKnownLocation, area))).ToListAsync();
 
-        //public async Task<User> CreateUser(string name, Location location)
-        //{
-        //    var userId = (int)await this._currentLocations.CountDocumentsAsync(FilterDefinition<User>.Empty) + 1;
+        public async Task<UserDto> CreateUser(string name, GeoJsonPoint<GeoJson2DGeographicCoordinates> location)
+        {
+            var userId = (int)await this._currentLocations.CountDocumentsAsync(FilterDefinition<UserDto>.Empty) + 1;
 
-        //    var user = new User
-        //    {
-        //        UserId = userId,
-        //        Name = name,
-        //        LastKnownLocation = location.ToGeoJsonPoint()
-        //    };
+            var user = new UserDto
+            {
+                UserId = userId,
+                Name = name,
+                LastKnownLocation = location
+            };
 
-        //    await this._currentLocations.InsertOneAsync(user);
+            await this._currentLocations.InsertOneAsync(user);
 
-        //    await this._historicalLocations.InsertOneAsync(new UserHistory
-        //    {
-        //        UserId = userId,
-        //        Name = name,
-        //        LocationHistory = location.ToGeoJsonMultiPoint()
+            await this._historicalLocations.InsertOneAsync(new UserHistoryDto
+            {
+                UserId = userId,
+                Name = name,
+                LocationHistory = new GeoJsonMultiPoint<GeoJson2DGeographicCoordinates>(
+                    new GeoJsonMultiPointCoordinates<GeoJson2DGeographicCoordinates>(
+                        new List<GeoJson2DGeographicCoordinates> { location.Coordinates }))
 
-        //    });
+            });
 
-        //    return user;
-        //}
+            return user;
+        }
     }
 }

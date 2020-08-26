@@ -1,4 +1,5 @@
-﻿using LocationService.Code.GetAllUsersLocation;
+﻿using LocationService.Code.CreateUserCommand;
+using LocationService.Code.GetAllUsersLocation;
 using LocationService.Code.GetUserLocation;
 using LocationService.Code.GetUserLocationHistory;
 using LocationService.Code.GetUsersWithInAnArea;
@@ -31,18 +32,19 @@ namespace WebApp.Controllers
         public async Task<ActionResult<UserHistory>> GetLocationHistory(int userId) =>
             this.Ok(await this._mediator.Send(new GetUserLocationHistoryCommand(userId)));
 
-        [HttpGet("/users/location/area")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromQuery] Area area) =>
-            this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
-
         [HttpPut("/users/{userId}/location")]
         public async Task Put(int userId, [FromBody] Location location) =>
             await this._mediator.Send(new PutUserLocationCommand(userId, location));
 
-        //[HttpPost("/users/{name}/location")]
-        //public async Task<ActionResult<IEnumerable<User>>> CreateUserRecord(string name, [FromBody] Location location)
-        //{
-        //    return this.Ok(await this._mediator.Send(new CreateUserCommand(name, location)));
-        //}
+
+        [HttpGet("/users/location/area")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromQuery] Area area) =>
+            this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
+
+        [HttpPost("/users/{name}/location")]
+        public async Task<ActionResult<IEnumerable<User>>> CreateUserRecord(string name, [FromBody] Location location)
+        {
+            return this.Ok(await this._mediator.Send(new CreateUserCommand(name, location)));
+        }
     }
 }

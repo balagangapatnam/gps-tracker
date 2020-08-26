@@ -10,10 +10,9 @@ namespace LocationService.Code.GetUserLocationHistory
     {
         private readonly ILocationRepository _locationRepository;
 
-        public GetUserLocationHistoryCommandHandler(ILocationRepository locationRepository)
-        {
-            _locationRepository = locationRepository;
-        }
+        public GetUserLocationHistoryCommandHandler(ILocationRepository locationRepository) =>
+            this._locationRepository = locationRepository;
+
 
         public async Task<UserHistory> Handle(GetUserLocationHistoryCommand request, CancellationToken cancellationToken) =>
             (await this._locationRepository.GetLocationHistory(request.UserId)).ToUserHistory();
