@@ -1,4 +1,5 @@
-﻿using Repository.Data;
+﻿using MongoDB.Driver.GeoJsonObjectModel;
+using Repository.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,14 +7,16 @@ namespace Repository.Code
 {
     public interface ILocationRepository
     {
-        Task<IEnumerable<User>> GetCurrentLocationForAllUsersAsync();
+        Task<IEnumerable<UserDto>> GetCurrentLocationForAllUsersAsync();
 
-        Task<User> GetCurrentLocationAsync(int userId);
+        Task<UserDto> GetCurrentLocationAsync(int userId);
 
-        Task UpdateUserLocationAsync(int userId, Location location);
+        Task UpdateorAddUserLocationAsync(int userId, GeoJsonPoint<GeoJson2DGeographicCoordinates> location);
 
-        Task<User> GetLocationHistory(int userId);
+        Task<UserHistoryDto> GetLocationHistory(int userId);
 
-        Task<IEnumerable<User>> GetUsersWithInArea(Area requestArea);
+        Task<IEnumerable<UserDto>> GetUsersWithInArea(GeoJsonPolygon<GeoJson2DGeographicCoordinates> area);
+
+        //Task<User> CreateUser(string name, Location location);
     }
 }

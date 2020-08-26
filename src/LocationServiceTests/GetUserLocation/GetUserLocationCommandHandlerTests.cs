@@ -1,9 +1,9 @@
-﻿using LocationService.GetUserLocation;
-using NSubstitute;
+﻿using NSubstitute;
 using Repository.Code;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using LocationService.Code.GetUserLocation;
 using Xunit;
 
 namespace LocationServiceTests.GetUserLocation

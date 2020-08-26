@@ -1,7 +1,7 @@
-﻿using MediatR;
-using Repository.Data;
+﻿using LocationService.Data;
+using MediatR;
 
-namespace LocationService.GetUserLocation
+namespace LocationService.Code.GetUserLocation
 {
     public class GetUserLocationCommand : IRequest<User>
     {

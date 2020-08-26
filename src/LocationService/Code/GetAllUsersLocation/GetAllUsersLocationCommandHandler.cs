@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using LocationService.Data;
 using MediatR;
 using Repository.Code;
-using Repository.Data;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace LocationService.GetAllUsersLocation
+namespace LocationService.Code.GetAllUsersLocation
 {
     public class GetAllUsersLocationCommandHandler : IRequestHandler<GetAllUsersLocationCommand, IEnumerable<User>>
     {
@@ -16,9 +16,7 @@ namespace LocationService.GetAllUsersLocation
             _locationRepository = locationRepository;
         }
 
-        public async Task<IEnumerable<User>> Handle(GetAllUsersLocationCommand request, CancellationToken cancellationToken)
-        {
-            return await this._locationRepository.GetCurrentLocationForAllUsersAsync();
-        }
+        public async Task<IEnumerable<User>> Handle(GetAllUsersLocationCommand request, CancellationToken cancellationToken) =>
+            (await this._locationRepository.GetCurrentLocationForAllUsersAsync()).ToUsers();
     }
 }

@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using LocationService.Data;
+using MediatR;
 using Repository.Data;
 
-namespace LocationService.GetUserLocationHistory
+namespace LocationService.Code.GetUserLocationHistory
 {
-    public class GetUserLocationHistoryCommand : IRequest<User>
+    public class GetUserLocationHistoryCommand : IRequest<UserHistory>
     {
         public int UserId { get; set; }
 

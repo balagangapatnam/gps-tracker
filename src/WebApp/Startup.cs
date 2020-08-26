@@ -1,4 +1,4 @@
-using LocationService.GetUserLocation;
+using LocationService.Code.GetUserLocation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Repository.Code;
 
 namespace WebApp
@@ -32,9 +33,11 @@ namespace WebApp
 
             services.AddMediatR(typeof(GetUserLocationCommand));
 
-            services.AddTransient<IDatabaseConnectionFactory>(e => new SqlConnectionFactory(Configuration.GetConnectionString("LocationDb")));
+            services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
 
-            services.AddSingleton<ILocationRepository, LocationRepository>();
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
+            services.AddSingleton<ILocationRepository, MongoDbLocationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

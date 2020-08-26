@@ -1,11 +1,11 @@
 ﻿using EnsureThat;
+using LocationService.Data;
 using MediatR;
 using Repository.Code;
-using Repository.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LocationService.GetUserLocation
+namespace LocationService.Code.GetUserLocation
 {
     public class GetUserLocationCommandHandler : IRequestHandler<GetUserLocationCommand, User>
     {
@@ -20,7 +20,7 @@ namespace LocationService.GetUserLocation
         {
             EnsureArg.IsNotNull(request);
 
-            return await _locationRepository.GetCurrentLocationAsync(request.UserId);
+            return (await _locationRepository.GetCurrentLocationAsync(request.UserId)).ToUser();
         }
     }
 }

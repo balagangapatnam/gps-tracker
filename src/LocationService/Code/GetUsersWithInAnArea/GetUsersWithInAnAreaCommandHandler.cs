@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using LocationService.Data;
+using MediatR;
 using Repository.Code;
 using Repository.Data;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LocationService.GetUsersWithInAnArea
+namespace LocationService.Code.GetUsersWithInAnArea
 {
     public class GetUsersWithInAnAreaCommandHandler : IRequestHandler<GetUsersWithInAnAreaCommand, IEnumerable<User>>
     {
@@ -16,9 +17,7 @@ namespace LocationService.GetUsersWithInAnArea
             this._locationRepository = locationRepository;
         }
 
-        public async Task<IEnumerable<User>> Handle(GetUsersWithInAnAreaCommand request, CancellationToken cancellationToken)
-        {
-            return await this._locationRepository.GetUsersWithInArea(request.Area);
-        }
+        public async Task<IEnumerable<User>> Handle(GetUsersWithInAnAreaCommand request, CancellationToken cancellationToken) =>
+            (await this._locationRepository.GetUsersWithInArea(request.Area.ToGeoJsonPolygon())).ToUsers();
     }
 }

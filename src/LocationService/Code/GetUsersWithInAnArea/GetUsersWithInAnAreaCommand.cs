@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using LocationService.Data;
+using MediatR;
 using Repository.Data;
-using System.Collections.Generic;
 
-namespace LocationService.GetUsersWithInAnArea
+namespace LocationService.Code.GetUsersWithInAnArea
 {
     public class GetUsersWithInAnAreaCommand : IRequest<IEnumerable<User>>
     {
