@@ -7,9 +7,6 @@ namespace LocationService.Code.GetUserLocation
     {
         public int UserId { get; }
 
-        public GetUserLocationCommand(int userId)
-        {
-            this.UserId = userId;
-        }
+        public GetUserLocationCommand(int userId) => this.UserId = userId;
     }
 }

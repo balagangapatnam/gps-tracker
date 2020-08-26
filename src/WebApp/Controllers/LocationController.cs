@@ -1,14 +1,13 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Repository.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using LocationService.Code.GetAllUsersLocation;
+﻿using LocationService.Code.GetAllUsersLocation;
 using LocationService.Code.GetUserLocation;
 using LocationService.Code.GetUserLocationHistory;
 using LocationService.Code.GetUsersWithInAnArea;
 using LocationService.Code.PutUserLocation;
 using LocationService.Data;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {

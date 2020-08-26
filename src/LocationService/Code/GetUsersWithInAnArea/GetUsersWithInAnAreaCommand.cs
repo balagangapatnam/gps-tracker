@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using LocationService.Data;
+﻿using LocationService.Data;
 using MediatR;
-using Repository.Data;
+using System.Collections.Generic;
 
 namespace LocationService.Code.GetUsersWithInAnArea
 {
@@ -9,9 +8,6 @@ namespace LocationService.Code.GetUsersWithInAnArea
     {
         public Area Area { get; set; }
 
-        public GetUsersWithInAnAreaCommand(Area area)
-        {
-            Area = area;
-        }
+        public GetUsersWithInAnAreaCommand(Area area) => Area = area;
     }
 }

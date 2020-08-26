@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationService", "Location
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{0E47D6C5-4854-4F1E-96C9-621EDE69FB62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationServiceTests", "LocationServiceTests\LocationServiceTests.csproj", "{0FA347C8-2A1D-4161-855D-7F479D3F8502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocationServiceTests", "LocationServiceTests\LocationServiceTests.csproj", "{0FA347C8-2A1D-4161-855D-7F479D3F8502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

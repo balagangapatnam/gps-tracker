@@ -1,9 +1,8 @@
-﻿using MediatR;
+﻿using LocationService.Data;
+using MediatR;
 using Repository.Code;
-using Repository.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using LocationService.Data;
 
 namespace LocationService.Code.PutUserLocation
 {
