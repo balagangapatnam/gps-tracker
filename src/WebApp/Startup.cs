@@ -38,6 +38,11 @@ namespace WebApp
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddSingleton<ILocationRepository, MongoDbLocationRepository>();
+
+            services.AddCors(corsOptions =>
+            {
+                corsOptions.AddPolicy("CorsPolicy", builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +50,7 @@ namespace WebApp
         {
             if (env.IsDevelopment())
             {
+                app.UseCors("CorsPolicy");
                 app.UseDeveloperExceptionPage();
             }
             else

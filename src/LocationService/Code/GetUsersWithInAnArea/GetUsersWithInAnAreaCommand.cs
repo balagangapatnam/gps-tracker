@@ -6,8 +6,8 @@ namespace LocationService.Code.GetUsersWithInAnArea
 {
     public class GetUsersWithInAnAreaCommand : IRequest<IEnumerable<User>>
     {
-        public Area Area { get; set; }
+        public double[][] Area { get; set; }
 
-        public GetUsersWithInAnAreaCommand(Area area) => Area = area;
+        public GetUsersWithInAnAreaCommand(double[][] area) => Area = area;
     }
 }

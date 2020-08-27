@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\components\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LocationService\LocationService.csproj" />
   </ItemGroup>
 

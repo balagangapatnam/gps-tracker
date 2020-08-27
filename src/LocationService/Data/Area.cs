@@ -11,10 +11,10 @@ namespace LocationService.Data
 
     public static class AreaExtenisons
     {
-        public static GeoJsonPolygon<GeoJson2DGeographicCoordinates> ToGeoJsonPolygon(this Area area) =>
+        public static GeoJsonPolygon<GeoJson2DGeographicCoordinates> ToGeoJsonPolygon(this double[][] area) =>
             new GeoJsonPolygon<GeoJson2DGeographicCoordinates>(
                 new GeoJsonPolygonCoordinates<GeoJson2DGeographicCoordinates>(
-                    new GeoJsonLinearRingCoordinates<GeoJson2DGeographicCoordinates>(area.Locations.Select(location =>
-                        new GeoJson2DGeographicCoordinates(location.Longitude, location.Latitude)).ToList())));
+                    new GeoJsonLinearRingCoordinates<GeoJson2DGeographicCoordinates>(area.Select(coordinates =>
+                        new GeoJson2DGeographicCoordinates(coordinates[1], coordinates[0])).ToList())));
     }
 }

@@ -40,8 +40,8 @@ namespace WebApp.Controllers
         public async Task Put(int userId, [FromBody] Location location) =>
             await this._mediator.Send(new PutUserLocationCommand(userId, location));
 
-        [HttpGet("/users/location/area")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromQuery] Area area) =>
+        [HttpPost("/users/location/area")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromBody] double[][] area) =>
             this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
 
         [HttpPost("/users/{name}/location")]
