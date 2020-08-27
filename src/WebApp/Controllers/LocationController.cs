@@ -1,11 +1,13 @@
-﻿using LocationService.GetAllUsersLocation;
-using LocationService.GetUserLocation;
-using LocationService.GetUserLocationHistory;
-using LocationService.GetUsersWithInAnArea;
-using LocationService.PutUserLocation;
+﻿using LocationService.Code.CreateUserCommand;
+using LocationService.Code.GetAllUsersLocation;
+using LocationService.Code.GetUserLocation;
+using LocationService.Code.GetUserLocationHistory;
+using LocationService.Code.GetUsersWithInAnArea;
+using LocationService.Code.PutUserLocation;
+using LocationService.Data;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,26 +21,31 @@ namespace WebApp.Controllers
 
         public LocationController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet("/users/location/")]
+        [HttpGet("/users/location")]
+        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<User>>> GetLocationForAllUsers() =>
             this.Ok(await this._mediator.Send(new GetAllUsersLocationCommand()));
 
-        [HttpGet("/users/{userId}/location/")]
+        [HttpGet("/users/{userId}/location")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<ActionResult<User>> GetLocation(int userId) =>
             this.Ok(await this._mediator.Send(new GetUserLocationCommand(userId)));
 
         [HttpGet("/users/{userId}/location/history")]
-        public async Task<ActionResult<User>> GetLocationHistory(int userId) =>
+        [ProducesResponseType(typeof(UserHistory), StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserHistory>> GetLocationHistory(int userId) =>
             this.Ok(await this._mediator.Send(new GetUserLocationHistoryCommand(userId)));
 
-        [HttpGet("/users/location/area")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromQuery] Area area)
-        {
-            return this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
-        }
-
-        [HttpPut("location/{userId}/")]
+        [HttpPut("/users/{userId}/location")]
         public async Task Put(int userId, [FromBody] Location location) =>
             await this._mediator.Send(new PutUserLocationCommand(userId, location));
+
+        [HttpPost("/users/location/area")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersWithInArea([FromBody] double[][] area) =>
+            this.Ok(await this._mediator.Send(new GetUsersWithInAnAreaCommand(area)));
+
+        [HttpPost("/users/{name}/location")]
+        public async Task<ActionResult<User>> CreateUserRecord(string name, [FromBody] Location location) =>
+            await this._mediator.Send(new CreateUserCommand(name, location));
     }
 }
