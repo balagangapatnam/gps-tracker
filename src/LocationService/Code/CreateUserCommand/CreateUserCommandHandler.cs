@@ -4,6 +4,7 @@ using MediatR;
 using Repository.Code;
 using System.Threading;
 using System.Threading.Tasks;
+using Repository.Data;
 
 namespace LocationService.Code.CreateUserCommand
 {
@@ -18,7 +19,7 @@ namespace LocationService.Code.CreateUserCommand
         {
             EnsureArg.IsNotNullOrEmpty(request.Name);
 
-            return (await this._locationRepository.CreateUser(request.Name, request.Location.ToGeoJsonPoint()))
+            return (await this._locationRepository.CreateUser(request.Name, request.Location.ToGeoJsonPoint(), request.Location.Recorded))
                 .ToUser();
         }
     }

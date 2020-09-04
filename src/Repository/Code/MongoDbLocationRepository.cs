@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 using Repository.Data;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,10 +27,14 @@ namespace Repository.Code
         public async Task<UserDto> GetCurrentLocationAsync(int userId) =>
             await (await this._currentLocations.FindAsync(u => u.UserId == userId)).FirstOrDefaultAsync();
 
-        public async Task UpdateorAddUserLocationAsync(int userId, GeoJsonPoint<GeoJson2DGeographicCoordinates> location)
+        public async Task UpdateorAddUserLocationAsync(int userId, GeoJsonPoint<GeoJson2DGeographicCoordinates> location, DateTime recorded)
         {
             await this._currentLocations.FindOneAndUpdateAsync(u => u.UserId == userId,
-                Builders<UserDto>.Update.Set("location", location));
+                Builders<UserDto>.Update.Combine(new List<UpdateDefinition<UserDto>>
+                {
+                    Builders<UserDto>.Update.Set("location", location),
+                    Builders<UserDto>.Update.Set("recorded", recorded)
+                })); ;
 
             await this._historicalLocations.FindOneAndUpdateAsync(u => u.UserId == userId,
                 Builders<UserHistoryDto>.Update.Push("location.coordinates", location.Coordinates));
@@ -42,7 +47,7 @@ namespace Repository.Code
             await (await this._currentLocations.FindAsync(
                 Builders<UserDto>.Filter.GeoWithin(u => u.LastKnownLocation, area))).ToListAsync();
 
-        public async Task<UserDto> CreateUser(string name, GeoJsonPoint<GeoJson2DGeographicCoordinates> location)
+        public async Task<UserDto> CreateUser(string name, GeoJsonPoint<GeoJson2DGeographicCoordinates> location, DateTime recorded)
         {
             var userId = (int)await this._currentLocations.CountDocumentsAsync(FilterDefinition<UserDto>.Empty) + 1;
 
@@ -50,7 +55,8 @@ namespace Repository.Code
             {
                 UserId = userId,
                 Name = name,
-                LastKnownLocation = location
+                LastKnownLocation = location,
+                Recorded = recorded
             };
 
             await this._currentLocations.InsertOneAsync(user);
@@ -59,9 +65,7 @@ namespace Repository.Code
             {
                 UserId = userId,
                 Name = name,
-                LocationHistory = new GeoJsonMultiPoint<GeoJson2DGeographicCoordinates>(
-                    new GeoJsonMultiPointCoordinates<GeoJson2DGeographicCoordinates>(
-                        new List<GeoJson2DGeographicCoordinates> { location.Coordinates }))
+                LocationHistory = new List<Location> { new Location(location.Coordinates.Latitude, location.Coordinates.Longitude, recorded) }
 
             });
 

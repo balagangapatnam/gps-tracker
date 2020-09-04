@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -18,5 +19,8 @@ namespace Repository.Data
 
         [BsonElement("location")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> LastKnownLocation { get; set; }
+
+        [BsonElement("recorded")]
+        public DateTime Recorded { get; set; }
     }
 }

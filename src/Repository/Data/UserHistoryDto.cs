@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.GeoJsonObjectModel;
+using System.Collections.Generic;
 
 namespace Repository.Data
 {
@@ -16,7 +16,7 @@ namespace Repository.Data
         [BsonElement("name")]
         public string Name { get; set; }
 
-        [BsonElement("location")]
-        public GeoJsonMultiPoint<GeoJson2DGeographicCoordinates> LocationHistory { get; set; }
+        [BsonElement("location-history")]
+        public IList<Location> LocationHistory { get; set; }
     }
 }
