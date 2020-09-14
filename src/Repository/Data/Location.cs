@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MongoDB.Driver.GeoJsonObjectModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Repository.Data
 {
@@ -15,7 +15,7 @@ namespace Repository.Data
         [Range(-180.00, 180.00)]
         public double Longitude { get; set; }
 
-        public DateTime Recorded { get; } = DateTime.UtcNow;
+        public DateTime Recorded { get; set; } = DateTime.UtcNow;
 
         public Location() { }
 
