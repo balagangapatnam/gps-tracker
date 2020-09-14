@@ -3,6 +3,7 @@ using MediatR;
 using Repository.Code;
 using System.Threading;
 using System.Threading.Tasks;
+using Repository.Data;
 
 namespace LocationService.Code.PutUserLocation
 {
@@ -15,6 +16,6 @@ namespace LocationService.Code.PutUserLocation
 
         protected override async Task Handle(PutUserLocationCommand request, CancellationToken cancellationToken) =>
             await this._locationRepository.UpdateorAddUserLocationAsync(request.UserId,
-                request.Location.ToGeoJsonPoint());
+                request.Location.ToGeoJsonPoint(), request.Location.Recorded);
     }
 }

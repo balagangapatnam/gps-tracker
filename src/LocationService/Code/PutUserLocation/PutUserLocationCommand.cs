@@ -1,5 +1,6 @@
 ﻿using LocationService.Data;
 using MediatR;
+using Repository.Data;
 
 namespace LocationService.Code.PutUserLocation
 {

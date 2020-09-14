@@ -11,11 +11,8 @@ namespace LocationService.Data
             {
                 Id = @this.UserId,
                 Name = @this.Name,
-                LastKnownLocation = new Location
-                {
-                    Latitude = @this.LastKnownLocation.Coordinates.Latitude,
-                    Longitude = @this.LastKnownLocation.Coordinates.Longitude
-                }
+                LastKnownLocation = new Location(@this.LastKnownLocation.Coordinates.Latitude,
+                    @this.LastKnownLocation.Coordinates.Longitude, @this.Recorded)
             };
 
         public static UserHistory ToUserHistory(this UserHistoryDto @this) =>
@@ -23,11 +20,7 @@ namespace LocationService.Data
             {
                 Id = @this.UserId,
                 Name = @this.Name,
-                LocationHistory = @this.LocationHistory.Coordinates.Positions.Select(p => new Location
-                {
-                    Latitude = p.Latitude,
-                    Longitude = p.Longitude
-                })
+                LocationHistory = @this.LocationHistory
             };
 
         public static IEnumerable<User> ToUsers(this IEnumerable<UserDto> @this) =>

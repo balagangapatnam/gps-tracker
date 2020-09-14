@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace LocationService.Data
+namespace Repository.Data
 {
     public class Location
     {
@@ -13,6 +14,23 @@ namespace LocationService.Data
         [Required]
         [Range(-180.00, 180.00)]
         public double Longitude { get; set; }
+
+        public DateTime Recorded { get; } = DateTime.UtcNow;
+
+        public Location() { }
+
+        public Location(double latitude, double longitude)
+        {
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+        }
+
+        public Location(double latitude, double longitude, DateTime recorded)
+        {
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+            this.Recorded = recorded;
+        }
     }
 
     public static class LocationExtensions
